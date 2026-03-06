@@ -16,7 +16,6 @@ return {
       local servers = { 'lua_ls', 'basedpyright', 'ts_ls', 'rust_analyzer' }
       for _, server in ipairs(servers) do
         vim.lsp.config(server, {
-          cmd_env = os.environ(),
           capabilities = capabilities,
         })
       end
