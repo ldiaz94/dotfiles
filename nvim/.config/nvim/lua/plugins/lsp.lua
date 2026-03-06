@@ -11,12 +11,12 @@ return {
         ensure_installed = { 'lua_ls', 'basedpyright', 'ts_ls', 'rust_analyzer' },
       })
 
-      local lspconfig = require('lspconfig')
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       local servers = { 'lua_ls', 'basedpyright', 'ts_ls', 'rust_analyzer' }
       for _, server in ipairs(servers) do
-        lspconfig[server].setup({
+        vim.lsp.config(server, {
+          cmd_env = os.environ(),
           capabilities = capabilities,
         })
       end
@@ -25,7 +25,6 @@ return {
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
         callback = function(ev)
-          local opts = { buffer = ev.buf }
           vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = 'Go to definition' })
           vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = 'Go to references' })
           vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = 'Hover' })
